@@ -35,8 +35,15 @@ body {
     width: 100%;
 }
 
-#tab-contList * {
+
+#tab-contList * * {
     display: inline-block;
+    margin: auto;
+    width: auto;
+    margin-left: 10%;
+}
+
+#tab-contList * * * {
     margin: auto;
     font-size: 1.5em;
     margin-left: 10%;
@@ -50,9 +57,19 @@ body {
     display: inline-block;
 }
 
-#tabContent * * * {
+#tabContent * * {
     display: inline-block;
     margin: auto;
-    font-size: 1.5em;
+    font-size: 1em;
     margin-left: 10%;
+}
+.speDiv {
+    width: 4%;
+}
+.actButton {
+    background-color: var(--blue);
+    padding: 20px;
+    border-style: hidden;
+    border-radius: 10px;
+    margin-left: 85%;
 }
