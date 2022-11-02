@@ -27,5 +27,32 @@ body {
 }
 
 #tabulka .lineTop {
-    color:black;
+    border: 1px solid black;
+}
+
+#tab-contList {
+    display: inline-block;
+    width: 100%;
+}
+
+#tab-contList * {
+    display: inline-block;
+    margin: auto;
+    font-size: 1.5em;
+    margin-left: 10%;
+}
+
+.lineMid {
+    border: 1px dashed grey;
+}
+
+#devTool * * {
+    display: inline-block;
+}
+
+#tabContent * * * {
+    display: inline-block;
+    margin: auto;
+    font-size: 1.5em;
+    margin-left: 10%;
 }
