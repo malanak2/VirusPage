@@ -23,7 +23,7 @@ form.addEventListener("submit", (event) => {
     newActionBtn.setAttribute('id', 'actButton');
     newActionBtn.setAttribute('class', 'actButton');
     newActionBtn.setAttribute('onclick', 'bringUp(' + curDiv + ");");
-    newActionBtn.appendChild(document.createTextNode('Action Do'));
+    newActionBtn.appendChild(document.createTextNode('Otevřít'));
     newStatusDiv.setAttribute('id', 'status' + curDiv);
     newStatusDiv.setAttribute('class', 'speDiv');
     newDiv.appendChild(newIdDiv);

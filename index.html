@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="./formHandler.js" defer></script>
-    <title>ProjektVirus</title>
+    <title>Virus GUI</title>
 </head>
 <body>
     <button class="btnDownload"><a href="/virus.jpg" class="textButton">Stáhnout</a></button>
@@ -43,18 +43,18 @@
     <div id="devTool">
         <form id="devForm">
             <label for="id">Persons id</label>
-            <input type="text" id="id" name="id">
+            <input type="text" id="id" name="id" required>
             <label for="infFrom">Infected from</label>
             <input type="text" id="infFrom" name="infFrom">
             <label for="notes">Poznámky</label>
             <input type="text" id="notes" name="notes">
             <label for="username">Uživatelské jméno</label>
-            <input type="text" id="username" name="username">
-            <input type="radio" id="status" name="status" value="Active">
+            <input type="text" id="username" name="username" required>
+            <input type="radio" id="status" name="status" value="Active" required>
             <label for="status">Active</label>
-            <input type="radio" id="status" name="status" value="Deactivated">
+            <input type="radio" id="status" name="status" value="Deactivated" required>
             <label for="status">Not active</label>
-            <input type="submit">
+            <input type="submit" value="Add Infected PC">
         </form>
     </div>
 </body>
