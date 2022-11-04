@@ -13,7 +13,30 @@ body {
     border-style: hidden;
     border-radius: 10px;
     margin-left: 85%;
+    transition-duration: 0.9s;
 }
+
+.textButton {
+    color: gray;
+    transition-duration: 0.9s;
+}
+
+.textButton:link {
+    text-decoration: none;
+}
+
+.btnDownload:hover {
+    background-color: #0094C6;
+    padding: 20px;
+    border-style: hidden;
+    border-radius: 10px;
+    margin-left: 85%;
+}
+
+.btnDownload:hover .textButton {
+    color: #A3A9AA;
+}
+
 .textButton {
     font-size: 2em;
 }
@@ -33,6 +56,16 @@ body {
 #tab-contList {
     display: inline-block;
     width: 100%;
+    border-style:solid;
+    border-color: gray;
+    border-radius: 10px;
+}
+
+#hackList {
+    border-style:solid;
+    border-color: #A3A9AA;
+    border-radius: 10px;
+    border-width: 1px;
 }
 
 
@@ -46,7 +79,6 @@ body {
 #tab-contList * * * {
     margin: auto;
     font-size: 1.5em;
-    margin-left: 10%;
 }
 
 .lineMid {
@@ -62,14 +94,23 @@ body {
     margin: auto;
     font-size: 1em;
     margin-left: 10%;
+    width: 6.6%;
 }
-.speDiv {
-    width: 4%;
-}
+
 .actButton {
     background-color: var(--blue);
     padding: 20px;
     border-style: hidden;
     border-radius: 10px;
     margin-left: 85%;
+    transition-duration: 0.9s;
+}
+
+.actButton:hover {
+    background-color: blue;
+}
+
+.actButton:active {
+    transition-duration: 0s;
+    background-color: var(--blue);
 }

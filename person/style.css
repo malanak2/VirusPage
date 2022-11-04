@@ -1,0 +1,70 @@
+html, body {
+    --blue: #06AED5;
+    --light_blue: #70D4FF;
+}
+
+body {
+    background-color: var(--light_blue);
+}
+
+.btn {
+    background-color: blue;
+}
+
+.return {
+    background-color: var(--blue);
+    padding: 20px;
+    border-style: hidden;
+    border-radius: 10px;
+    margin-left: 85%;
+    transition-duration: 0.9s;
+}
+
+.txtRet {
+    color: gray;
+    transition-duration: 0.9s;
+}
+
+.txtRet:link {
+    text-decoration: none;
+}
+
+.return:hover {
+    background-color: #0094C6;
+    padding: 20px;
+    border-style: hidden;
+    border-radius: 10px;
+    margin-left: 85%;
+}
+
+.return:hover .txtRet {
+    color: #A3A9AA;
+}
+
+.txtRet {
+    font-size: 2em;
+}
+
+.canv {
+    background: #000;
+    border: 1px solid #aaa;
+    border-radius: 15px;
+    height: 515px;
+    margin: 20px 20px;
+    overflow: hidden;
+    width: 690px;
+
+    -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+}
+
+.cmInput {
+    margin:auto;
+    width:690px;
+    margin: 20px;
+    border-radius: 10px;
+    border-style: disabled;
+}
+
+.consoleP {
+    color: white;
+}

@@ -1,6 +1,7 @@
 const form = document.getElementById("devForm");
 const tabContent = document.getElementById("tabContent");
-var curDiv = 0;
+var curDiv = 100;
+const page = location.href;
   // Add 'submit' event handler
 form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -12,6 +13,7 @@ form.addEventListener("submit", (event) => {
     const newUserNameDiv = document.createElement("div");
     const newActionBtn = document.createElement("button");
     const newStatusDiv = document.createElement("div");
+    newDiv.setAttribute('id', 'hackList')
     newIdDiv.setAttribute('id', "ID" + curDiv);
     newIdDiv.setAttribute('class', 'speDiv');
     newInfFromDiv.setAttribute('id', "infFrom" + curDiv);
@@ -55,5 +57,5 @@ function newId(og, curDiv) {
 }
 
 function bringUp(id) {
-    console.log("brang up" + id)
+    window.location.replace(page + "person/person.html?id=" + id);
 }
