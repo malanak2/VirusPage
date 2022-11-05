@@ -5,6 +5,7 @@ const page = location.href;
   // Add 'submit' event handler
 form.addEventListener("submit", (event) => {
     event.preventDefault();
+    const FData = new FormData(form);
     curDiv += 1;
     const newDiv = document.createElement("div");
     const newIdDiv = document.createElement("div");
@@ -26,8 +27,13 @@ form.addEventListener("submit", (event) => {
     newActionBtn.setAttribute('class', 'actButton');
     newActionBtn.setAttribute('onclick', 'bringUp(' + curDiv + ");");
     newActionBtn.appendChild(document.createTextNode('Otevřít'));
+    if (FData.get('status') == 'Deactivated') {
+        newActionBtn.disabled = true;
+        newStatusDiv.setAttribute('class', 'notActive');
+    } else {
+        newStatusDiv.setAttribute('class', 'Active');
+    }
     newStatusDiv.setAttribute('id', 'status' + curDiv);
-    newStatusDiv.setAttribute('class', 'speDiv');
     newDiv.appendChild(newIdDiv);
     newDiv.appendChild(newInfFromDiv);
     newDiv.appendChild(newNotesDiv);
@@ -36,7 +42,6 @@ form.addEventListener("submit", (event) => {
     newDiv.appendChild(newStatusDiv);
     tabContent.appendChild(newDiv);
     console.log("Done");
-    const FData = new FormData(form);
     addType(newId("ID", curDiv),"p" , "id", FData);
     addType(newId("infFrom", curDiv), "p", "infFrom", FData);
     addType(newId("notes", curDiv), "p", "notes", FData);

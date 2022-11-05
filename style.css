@@ -114,3 +114,29 @@ body {
     transition-duration: 0s;
     background-color: var(--blue);
 }
+
+.actButton:disabled {
+    background-color: gray;
+    padding: 20px;
+    border-style: hidden;
+    border-radius: 10px;
+    margin-left: 85%;
+    transition-duration: 0.9s;
+}
+
+.actButton:hover:disabled {
+    background-color: lightgray;
+}
+
+.actButton:active:disabled {
+    transition-duration: 0s;
+    background-color: red;
+}
+
+.Active {
+    color:limegreen;
+}
+
+.notActive {
+    color: #c61e00;
+}

@@ -30,7 +30,7 @@ var canv = createHiDPICanvas(500, 250);
 // To here from stack overflow
 
 const inp = document.createElement('input');
-inp.setAttribute('type', 'input')
+inp.setAttribute('type', 'text')
 inp.setAttribute('id', 'cmdInput')
 inp.setAttribute('class', 'cmInput')
 inp.setAttribute('placeholder', 'Input commands here!')
@@ -42,6 +42,7 @@ dv.appendChild(inp)
 var id = parseInt(page.substring(page.indexOf("?")+4));
 var a = parseInt(page.substring(page.indexOf("?")+10));
 times = 1;
+document.title = "Person " + id;
 
 const input = document.querySelector("input");
 input.addEventListener("keyup", (event) => {
@@ -56,5 +57,6 @@ input.addEventListener("keyup", (event) => {
         ctx.fillStyle = 'white';
         ctx.fillText(input.value, 10, 30 * times);
         times += 1;
+        input.value = '';
     }
   });
