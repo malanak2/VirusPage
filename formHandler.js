@@ -27,7 +27,7 @@ form.addEventListener("submit", (event) => {
     newActionBtn.setAttribute('class', 'actButton');
     newActionBtn.setAttribute('onclick', 'bringUp(' + curDiv + ");");
     newActionBtn.appendChild(document.createTextNode('Otevřít'));
-    if (FData.get('status') == 'Deactivated') {
+    if (FData.get('status') == 'Not Active') {
         newActionBtn.disabled = true;
         newStatusDiv.setAttribute('class', 'notActive');
     } else {
@@ -62,5 +62,5 @@ function newId(og, curDiv) {
 }
 
 function bringUp(id) {
-    window.location.replace(page + "person/person.html?id=" + id);
+    window.location.href = page + "person/person.html?id=" + id;
 }

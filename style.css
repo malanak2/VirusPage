@@ -125,7 +125,7 @@ body {
 }
 
 .actButton:hover:disabled {
-    background-color: lightgray;
+    background-color: rgb(138, 138, 138);
 }
 
 .actButton:active:disabled {
