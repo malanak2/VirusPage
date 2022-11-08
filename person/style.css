@@ -69,6 +69,7 @@ body {
     color: white;
     margin-top:1px;
     margin-bottom: 1px;
+    font-family: Consolas, monaco, monospace;
 }
 
 .console {
