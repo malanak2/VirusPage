@@ -1,12 +1,12 @@
 const form = document.getElementById("devForm");
 const tabContent = document.getElementById("tabContent");
-var curDiv = 100;
-const page = location.href;
+var curId = 100;
+const page = location.protocol;
   // Add 'submit' event handler
 form.addEventListener("submit", (event) => {
     event.preventDefault();
     const FData = new FormData(form);
-    curDiv += 1;
+    curId += 1;
     const newDiv = document.createElement("div");
     const newIdDiv = document.createElement("div");
     const newInfFromDiv = document.createElement("div");
@@ -15,17 +15,17 @@ form.addEventListener("submit", (event) => {
     const newActionBtn = document.createElement("button");
     const newStatusDiv = document.createElement("div");
     newDiv.setAttribute('id', 'hackList')
-    newIdDiv.setAttribute('id', "ID" + curDiv);
+    newIdDiv.setAttribute('id', "ID" + curId);
     newIdDiv.setAttribute('class', 'speDiv');
-    newInfFromDiv.setAttribute('id', "infFrom" + curDiv);
+    newInfFromDiv.setAttribute('id', "infFrom" + curId);
     newInfFromDiv.setAttribute('class', 'speDiv');
-    newNotesDiv.setAttribute('id', 'notes' + curDiv);
+    newNotesDiv.setAttribute('id', 'notes' + curId);
     newNotesDiv.setAttribute('class', 'speDiv');
-    newUserNameDiv.setAttribute('id', 'userName' + curDiv);
+    newUserNameDiv.setAttribute('id', 'userName' + curId);
     newUserNameDiv.setAttribute('class', 'speDiv');
     newActionBtn.setAttribute('id', 'actButton');
     newActionBtn.setAttribute('class', 'actButton');
-    newActionBtn.setAttribute('onclick', 'bringUp(' + curDiv + ");");
+    newActionBtn.setAttribute('onclick', 'bringUp(' + curId + ");");
     newActionBtn.appendChild(document.createTextNode('Otevřít'));
     if (FData.get('status') == 'Not Active') {
         newActionBtn.disabled = true;
@@ -33,7 +33,7 @@ form.addEventListener("submit", (event) => {
     } else {
         newStatusDiv.setAttribute('class', 'Active');
     }
-    newStatusDiv.setAttribute('id', 'status' + curDiv);
+    newStatusDiv.setAttribute('id', 'status' + curId);
     newDiv.appendChild(newIdDiv);
     newDiv.appendChild(newInfFromDiv);
     newDiv.appendChild(newNotesDiv);
@@ -42,22 +42,29 @@ form.addEventListener("submit", (event) => {
     newDiv.appendChild(newStatusDiv);
     tabContent.appendChild(newDiv);
     console.log("Done");
-    addType(newId("ID", curDiv),"p" , "id", FData);
-    addType(newId("infFrom", curDiv), "p", "infFrom", FData);
-    addType(newId("notes", curDiv), "p", "notes", FData);
-    addType(newId("userName", curDiv), "p", "username", FData);
-    addType(newId("status", curDiv), "p", "status", FData);
+    addId(newId('ID', curId), 'p', curId)
+    addType(newId("infFrom", curId), "p", "infFrom", FData);
+    addType(newId("notes", curId), "p", "notes", FData);
+    addType(newId("userName", curId), "p", "username", FData);
+    addType(newId("status", curId), "p", "status", FData);
 })
 
-function addType(id, typeToAdd, formId, FData,) {
+function addType(id, typeToAdd, formId, FData) {
     const newOne = document.createElement(typeToAdd);
     const now = document.getElementById(String(id));
     newOne.appendChild(document.createTextNode(FData.get(formId)));
     now.appendChild(newOne);
 }
 
-function newId(og, curDiv) {
-    newOne = og + curDiv
+function addId(id, typeToAdd, curId) {
+    const newOne = document.createElement(typeToAdd);
+    const now = document.getElementById(String(id));
+    newOne.appendChild(document.createTextNode(curId));
+    now.appendChild(newOne);
+}
+
+function newId(og, curId) {
+    newOne = og + curId
     return newOne
 }
 

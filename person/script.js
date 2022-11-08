@@ -21,7 +21,7 @@ input.addEventListener("keyup", (event) => {
         console.log('Added command ' + input.value)
         var command = document.createElement('p')
         command.setAttribute('class', 'consoleP')
-        if (input.value == 'id') {
+        if (input.value.toLowerCase() == 'id') {
             var cmdText = document.createTextNode(id)
             command.appendChild(cmdText)
             dv.appendChild(command)
