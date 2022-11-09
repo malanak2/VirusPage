@@ -47,7 +47,7 @@ form.addEventListener("submit", (event) => {
         console.log("Done");
         addType(newId('ID', curId), 'p', 'id', FData)
         addType(newId("infFrom", curId), "p", "infFrom", FData);
-        addType(newId("notes", curId), "p", "notes", FData);
+        addType(newId("notes", curId), 'p', 'notes', FData);
         addType(newId("userName", curId), "p", "username", FData);
         addType(newId("status", curId), "p", "status", FData);
     } else {
@@ -62,10 +62,11 @@ function addType(id, typeToAdd, formId, FData) {
     now.appendChild(newOne);
 }
 
-function addId(id, typeToAdd, curId) {
-    const newOne = document.createElement(typeToAdd);
-    const now = document.getElementById(String(id));
-    newOne.appendChild(document.createTextNode(curId));
+function addNotes(id) {
+    const newOne = document.createElement('input');
+    newOne.setAttribute('placeholder', 'Here will be your notes!');
+    newOne.setAttribute('class', 'noteAttr')
+    const now = document.getElementById(id)
     now.appendChild(newOne);
 }
 
@@ -77,3 +78,33 @@ function newId(og, curId) {
 function bringUp(id) {
     window.location.href = page + "person/person?id=" + id;
 }
+
+
+
+document.querySelectorAll('.noteAttr').forEach(item => {
+item.addEventListener('keyup', (event) => {
+    console.log("Maybe")
+    if (event.key === "Enter") {
+        console.log("Maybe!")
+        const parNode = input.parentNode();
+        ids = [];
+        for (let x = 0; x <= parNode.id.length; x++) {
+            let curr = parNode.id;
+            let currArr = curr.split('');
+            try {
+                const id = parseInt(currArr[x]);
+                ids.push(id);
+            } catch (e) {
+                console.log(currArr[x]);
+                if (false) {
+                    console.log(e)
+                }
+            }
+        }
+        var finId = ids.map(function (x) { 
+            return parseInt(x, 10); 
+        });
+        print('Added note ' + item.value + ' to ' + finId)
+    }
+})
+});

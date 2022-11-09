@@ -69,6 +69,10 @@ body {
     border-width: 1px;
 }
 
+#tab-contList {
+    margin:auto;
+}
+
 #tab-contList * * {
     display: inline-block;
     margin: auto;
@@ -102,17 +106,23 @@ body {
     width: 6.6%;
 }
 
+.noteAttr {
+    border-style: none;
+    border-radius: 10px;
+    overflow-x: auto;
+}
+
 .actButton {
     background-color: var(--blue);
     padding: 20px;
     border-style: hidden;
     border-radius: 10px;
     margin-left: 85%;
-    transition-duration: 0.9s;
+    transition-duration: 0.5s;
 }
 
 .actButton:hover {
-    background-color: blue;
+    background-color: #00c0eb;
 }
 
 .actButton:active {
@@ -122,6 +132,7 @@ body {
 
 .actButton:disabled {
     background-color: gray;
+    color: white;
     padding: 20px;
     border-style: hidden;
     border-radius: 10px;
