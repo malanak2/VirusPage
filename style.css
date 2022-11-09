@@ -109,7 +109,7 @@ body {
 .noteAttr {
     border-style: none;
     border-radius: 10px;
-    overflow-x: auto;
+    width: fit-content;
 }
 
 .actButton {

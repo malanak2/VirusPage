@@ -27,14 +27,14 @@ form.addEventListener("submit", (event) => {
         newUserNameDiv.setAttribute('id', 'userName' + curId);
         newUserNameDiv.setAttribute('class', 'speDiv');
         newActionBtn.setAttribute('id', 'actButton');
-        newActionBtn.setAttribute('class', 'actButton');
+        newActionBtn.setAttribute('class', 'actButton speDiv');
         newActionBtn.setAttribute('onclick', 'bringUp(' + curId + ");");
         newActionBtn.appendChild(document.createTextNode('Otevřít'));
         if (FData.get('status') == 'Not Active') {
             newActionBtn.disabled = true;
-            newStatusDiv.setAttribute('class', 'notActive');
+            newStatusDiv.setAttribute('class', 'notActive speDiv');
         } else {
-            newStatusDiv.setAttribute('class', 'Active');
+            newStatusDiv.setAttribute('class', 'Active speDiv');
         }
         newStatusDiv.setAttribute('id', 'status' + curId);
         newDiv.appendChild(newIdDiv);
@@ -47,7 +47,7 @@ form.addEventListener("submit", (event) => {
         console.log("Done");
         addType(newId('ID', curId), 'p', 'id', FData)
         addType(newId("infFrom", curId), "p", "infFrom", FData);
-        addType(newId("notes", curId), 'p', 'notes', FData);
+        addNotes(newId("notes", curId), curId);
         addType(newId("userName", curId), "p", "username", FData);
         addType(newId("status", curId), "p", "status", FData);
     } else {
@@ -62,10 +62,11 @@ function addType(id, typeToAdd, formId, FData) {
     now.appendChild(newOne);
 }
 
-function addNotes(id) {
-    const newOne = document.createElement('input');
-    newOne.setAttribute('placeholder', 'Here will be your notes!');
-    newOne.setAttribute('class', 'noteAttr')
+function addNotes(id, curId) {
+    const newOne = document.createElement('button');
+    newOne.setAttribute('onClick', 'window.open(\'/person/notes/notes?id=' + curId + '\')');
+    newOne.setAttribute('class', 'noteAttr');
+    newOne.appendChild(document.createTextNode('Open notes'))
     const now = document.getElementById(id)
     now.appendChild(newOne);
 }
@@ -78,33 +79,3 @@ function newId(og, curId) {
 function bringUp(id) {
     window.location.href = page + "person/person?id=" + id;
 }
-
-
-
-document.querySelectorAll('.noteAttr').forEach(item => {
-item.addEventListener('keyup', (event) => {
-    console.log("Maybe")
-    if (event.key === "Enter") {
-        console.log("Maybe!")
-        const parNode = input.parentNode();
-        ids = [];
-        for (let x = 0; x <= parNode.id.length; x++) {
-            let curr = parNode.id;
-            let currArr = curr.split('');
-            try {
-                const id = parseInt(currArr[x]);
-                ids.push(id);
-            } catch (e) {
-                console.log(currArr[x]);
-                if (false) {
-                    console.log(e)
-                }
-            }
-        }
-        var finId = ids.map(function (x) { 
-            return parseInt(x, 10); 
-        });
-        print('Added note ' + item.value + ' to ' + finId)
-    }
-})
-});
