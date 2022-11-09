@@ -59,6 +59,7 @@ body {
     border-style:solid;
     border-color: gray;
     border-radius: 10px;
+    margin: auto;
 }
 
 #hackList {
@@ -68,12 +69,12 @@ body {
     border-width: 1px;
 }
 
-
 #tab-contList * * {
     display: inline-block;
     margin: auto;
     width: auto;
     margin-left: 10%;
+    width: 6.6%;
 }
 
 #tab-contList * * * {
@@ -87,6 +88,10 @@ body {
 
 #devTool * * {
     display: inline-block;
+}
+
+#tabContent {
+    margin: auto;
 }
 
 #tabContent * * {
