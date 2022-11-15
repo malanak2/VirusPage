@@ -1,10 +1,10 @@
 const page = location.href;
 const searchParams = new URLSearchParams(window.location.search);
 var id = parseInt(searchParams.get('id'));
+const noteIn = document.createElement('span');
 
-if (id != null && id.length != 0 && !isNaN(id)) {
+if (id !== null && id.length !== 0 && !isNaN(id)) {
     const noteDiv = document.getElementById('noteDiv');
-    const noteIn = document.createElement('span');
     noteIn.setAttribute('contenteditable', 'true');
     noteIn.appendChild(document.createTextNode('Note for person ' + id + '!'));
     noteIn.setAttribute('class', 'noteIn')
