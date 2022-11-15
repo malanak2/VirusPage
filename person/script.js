@@ -1,20 +1,28 @@
 const page = location.href;
+const searchParams = new URLSearchParams(window.location.search);
 
-const inp = document.createElement('input');
-inp.setAttribute('type', 'text')
-inp.setAttribute('id', 'cmdInput')
-inp.setAttribute('class', 'cmInput')
-inp.setAttribute('placeholder', 'Input commands here!')
-const dv = document.getElementById('console');
-dv.setAttribute('style', 'width:' + window.innerWidth + ';' + 'height:' + window.innerHeight + ';');
-const dvInp = document.getElementById('consInp');
-dvInp.appendChild(inp);
-// Also possible : location.search
-var id = parseInt(page.substring(page.indexOf("?")+4));
-var a = parseInt(page.substring(page.indexOf("?")+10));
-times = 1;
-document.title = "Person " + id;
-
+id = searchParams.get('id');
+if (id != null && id.length != 0 && !isNaN(id)) {
+    const inp = document.createElement('input');
+    inp.setAttribute('type', 'text')
+    inp.setAttribute('id', 'cmdInput')
+    inp.setAttribute('class', 'cmInput')
+    inp.setAttribute('placeholder', 'Input commands here!')
+    const dv = document.getElementById('console');
+    dv.setAttribute('style', 'width:' + window.innerWidth + ';' + 'height:' + window.innerHeight + ';');
+    const dvInp = document.getElementById('consInp');
+    dvInp.appendChild(inp);
+    
+    document.title = "Person " + id;
+} else {    
+    const NOID = document.createElement('p')
+    NOID.appendChild(document.createTextNode('No Id was supplied, please either contact the page admin, if you believe this is error, or access this page from the admin panel!'))
+    const mainDiv = document.getElementById('allBox');
+    mainDiv.innerHTML = '';
+    mainDiv.appendChild(NOID)
+    mainDiv.setAttribute('style', 'background-color: red !important;')
+    document.title = 'Error!';
+}
 const input = document.querySelector("input");
 input.addEventListener("keyup", (event) => {
     if (event.key === "Enter") {
@@ -25,12 +33,10 @@ input.addEventListener("keyup", (event) => {
             var cmdText = document.createTextNode(id)
             command.appendChild(cmdText)
             dv.appendChild(command)
-            times += 1;
         } else if (input.value != '') {
             var cmdText = document.createTextNode(input.value)
             command.appendChild(cmdText)
             dv.appendChild(command)
-            times += 1;
         }
         input.value = '';
     }

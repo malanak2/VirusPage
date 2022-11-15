@@ -64,7 +64,7 @@ function addType(id, typeToAdd, formId, FData) {
 
 function addNotes(id, curId) {
     const newOne = document.createElement('button');
-    newOne.setAttribute('onClick', 'window.open(\'/person/notes/notes?id=' + curId + '\')');
+    newOne.setAttribute('onClick', 'window.open(\'/person/notes/?id=' + curId + '\')');
     newOne.setAttribute('class', 'noteAttr');
     newOne.appendChild(document.createTextNode('Open notes'))
     const now = document.getElementById(id)

@@ -5,10 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=+, initial-scale=1.0">
     <script src="./notes.js" defer></script>
-    <link type="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
+    <div id="allBox">
+    <div id="retDiv">
+        <button class="return" onclick="retToMain()">Return</button>
+    </div>
     <div id="noteDiv" class="noteDiv"></div>
+    <button class="confBtn" onclick="rewriteNote(false)" id="btnConf">Confirm</button>
+    </div>
 </body>
 </html>

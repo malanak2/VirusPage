@@ -1,22 +1,42 @@
 const page = location.href;
-var id = parseInt(page.substring(page.indexOf("?")+4));
-const noteDiv = document.getElementById('noteDiv');
-const note = document.createElement('p');
-const noteCont = document.createTextNode('Note for ' + id);
-const noteIn = document.createElement('input');
-noteIn.setAttribute('placeholder', 'Put your note here!');
-note.appendChild(noteCont);
-noteDiv.appendChild(note)
-noteDiv.appendChild(noteIn);
-const input = document.querySelector("input");
-input.addEventListener("keyup", (event) => {
-    if (event.key === "Enter") {
-        if (confirm('Are you sure? This will overwrite the current message') == true) {
-        note.innerText = '';
-        noteContNew = document.createTextNode(input.value);
-        note.appendChild(noteContNew)
-        input.value = '';
+const searchParams = new URLSearchParams(window.location.search);
+var id = parseInt(searchParams.get('id'));
+
+if (id != null && id.length != 0 && !isNaN(id)) {
+    const noteDiv = document.getElementById('noteDiv');
+    const noteIn = document.createElement('span');
+    noteIn.setAttribute('contenteditable', 'true');
+    noteIn.appendChild(document.createTextNode('Note for person ' + id + '!'));
+    noteIn.setAttribute('class', 'noteIn')
+    noteDiv.appendChild(noteIn);
+    document.title = 'Person ' + id;
+} else {
+    const NOID = document.createElement('p');
+    NOID.appendChild(document.createTextNode('No Id was supplied or it is string, please either contact the page admin, if you believe this is error, or access this page from the admin panel!'));
+    const mainDiv = document.getElementById('allBox');
+    mainDiv.innerHTML = '';
+    mainDiv.appendChild(NOID)
+    mainDiv.setAttribute('style', 'background-color: red !important;')
+    document.title = 'Error!';
+}
+
+function rewriteNote(isConf) {
+    const btn = document.getElementById('btnConf')
+    if (isConf) {
+        const txt = noteIn.innerHTML;
+        const refTxt = txt.replace(/<br>/g, ' \n ');
+        const finTxt = refTxt.replace(/{id}/g, id);
+        console.log('Does backend stuff with note \"' + finTxt + '\"')
+        btn.setAttribute('onclick', 'rewriteNote(false)')
+        btn.setAttribute('class', 'confirmedBtn')
+        btn.innerText = 'Done';
+        setTimeout(() => {btn.setAttribute('class', 'confBtn');btn.innerText = 'Confirm';}, '1500');
     } else {
-        alert('Aborted!');
+        btn.setAttribute('onclick', 'rewriteNote(true)')
+        btn.setAttribute('class', 'btnConf')
+        btn.innerText = 'Are you sure?';
     }}
-  });
+
+function retToMain() {
+    window.location.href = location.origin;
+}

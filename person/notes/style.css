@@ -1,0 +1,56 @@
+:root {
+    --blue: #06AED5;
+    --light_blue: #70D4FF;
+}
+
+html {
+    background-color: var(--light_blue);
+}
+
+#retDiv {
+    display:flex;
+    float: right;
+}
+
+.return {
+    background-color: var(--blue);
+    border-style: hidden;
+    border-radius: 10px;
+    transition-duration: 0.9s;
+    width: 100%;
+    height: 25px;
+}
+
+.return:hover {
+    background-color: #0094C6;
+    border-style: hidden;
+    border-radius: 10px;
+}
+
+.return:active {
+    background-color: #00b0eb;
+}
+
+
+.noteIn {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+}
+
+#noteDiv {
+    display: flex;
+}
+
+#allBox {
+    display:flex;
+    flex-direction: column;
+}
+
+.btnConf {
+    color:red;
+}
+
+.confirmedBtn {
+    color: green;
+}
