@@ -91,9 +91,9 @@ def addPc():
         pcInfrom = datetime.today()
         pcUname = li[0].removeprefix('b\'')
         pcNotes = li[1]
-        pcStatus = li[2]
+        pcStatus = li[2].removesuffix("'")
         pcstat = False
-        if pcStatus == '1\'':
+        if pcStatus == '1':
             pcstat = True
         cdata = computersdata(infrom=pcInfrom, uname=pcUname, notes=pcNotes, status=pcstat)
         db.session.add(cdata)
