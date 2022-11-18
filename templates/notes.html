@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=+, initial-scale=1.0">
+    <script src="templateStatic/notes.js" defer></script>
+    <link rel="stylesheet" href="templateStatic/notes.css">
+    <title>{{user.uname}}</title>
+</head>
+<body>
+    <div id="allBox">
+    <p>Id of this computer is {{user.id}}</p>
+    <div id="retDiv">
+        <button class="return" onclick="retToMain()">Return</button>
+    </div>
+    <form method="POST" id="notes" class="form">
+        <input type='text' class='input' id="in" name="note" value="{{user.notes}}">
+        <input type='submit' class="confBtn" value="Confirm">
+    </form>
+    </div>
+</body>
+</html>

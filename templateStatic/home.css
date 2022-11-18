@@ -49,7 +49,7 @@ body {
 #tabulka * {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-
+/*
 #tabulka .name {
     font-size: 1.5em;
 }
@@ -109,7 +109,7 @@ body {
     font-size: 1em;
     margin-left: 10%;
     width: 6.6%;
-}
+}*/
 
 .noteAttr {
     border-style: none;
@@ -122,7 +122,6 @@ body {
     padding: 20px;
     border-style: hidden;
     border-radius: 10px;
-    margin-left: 85%;
     transition-duration: 0.5s;
 }
 
@@ -157,9 +156,18 @@ body {
 }
 
 .Active {
-    color:limegreen;
+    background-color:limegreen;
+    border-radius: 10px;
 }
 
 .notActive {
-    color: #c61e00;
+    background-color: #c61e00;
+    border-radius: 10px;
+}
+table, th, td {
+    border: 1px solid;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
