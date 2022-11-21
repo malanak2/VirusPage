@@ -102,7 +102,10 @@ def notes(id:int):
     if request.method == 'GET':
         return render_template('notes.html', user=user) # If the person opens page, sends normal response
     if request.method == 'POST': # If this is server event
-        newNote = request.form['note'] # Requests the content of the input field
+        try:
+            newNote = request.form['note'] # Requests the content of the form
+        except:
+            return render_template('error.html', case='Please dont fiddle with this pages code. I\'m just tired.')
         user = computersdata.query.get(idC) # Gets the user from the db, thanks to check we know the user exists
         refNote = newNote.replace('-id-', str(user.id)) # Replaces "-id-" in note with user id
         user.notes = refNote # Actually replaces the note in database
