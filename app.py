@@ -75,12 +75,13 @@ def persons(id:int):
         try:
             data = request.form['CommandToInput'] # Requests the content of the form
         except:
-            return render_template('error.html', case='Please dont fiddle with this pages code. I\'m just tired.')
+            return render_template('error.html', case='Please dont fiddle with this pages code. I\'m just tired.'), 469
         if data != '': # If data doesnt contain anything just return empty str
             SECONDATA = ['Id is '+str(idC), 'Second command', 'Written in input: ' + data] # Just adds 3rd line to the thing
             return render_template('person.html', computer=user, list=SECONDATA) # Returns sec data
         return render_template('person.html', computer=user, list=WIPCOMMANDS) # If emtpy, no need to return empty example ig
-    
+    abort(470) # Just as the error says...
+
 @app.route('/notes') # The same as earlier, but for notes
 def singlenotes():
     return render_template('error.html', case='Please supply id', type='normal'), 406
@@ -105,7 +106,7 @@ def notes(id:int):
         try:
             newNote = request.form['note'] # Requests the content of the form
         except:
-            return render_template('error.html', case='Please dont fiddle with this pages code. I\'m just tired.')
+            return render_template('error.html', case='Please dont fiddle with this pages code. I\'m just tired.'), 469
         user = computersdata.query.get(idC) # Gets the user from the db, thanks to check we know the user exists
         refNote = newNote.replace('-id-', str(user.id)) # Replaces "-id-" in note with user id
         user.notes = refNote # Actually replaces the note in database
@@ -113,7 +114,7 @@ def notes(id:int):
         db.session.commit() # Saves to the database
         return render_template('notes.html', user=user) # Returns the notes.html with the new user note
 
-    return render_template('error.html', case='NOTES UNKNOWN ERROR') # If by now it hasn't returned anything, i have no idea what hapenned
+    abort(470) # Just as the error says...
 
 ## On this line replace this with "@app.route('/your_url', methods=['GET', 'POST'])" or the function wont work
 def addPc():
@@ -147,9 +148,17 @@ def favicon():
     filename = 'templateStatic/favicon.ico'
     return send_file(filename, mimetype='image/gif')
 
+@app.get('/cErrCodes')
+def cerrcodes():
+    return {'469':'WIP return, should be described in error message, if not I just dont know :('}
+
 @app.errorhandler(404) # Handles all ERR_NOT_FOUND errors
 def page_not_found(e):
     return render_template('error.html', case='Page not found', type='normal'), 404 # Returns my error.html with 404 error
+
+@app.errorhandler(470) # Handles all ERR_NOT_FOUND errors
+def cerr(e):
+    return render_template('error.html', case='How tf you got here', type='db'), 470 # Returns my error.html with 404 error
 
 @app.errorhandler(DatabaseError) # If it somehow fails to connect to database
 def special_exception_handler(e):
