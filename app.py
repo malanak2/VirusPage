@@ -80,7 +80,7 @@ def persons(id:int):
             SECONDATA = ['Id is '+str(idC), 'Second command', 'Written in input: ' + data] # Just adds 3rd line to the thing
             return render_template('person.html', computer=user, list=SECONDATA) # Returns sec data
         return render_template('person.html', computer=user, list=WIPCOMMANDS) # If emtpy, no need to return empty example ig
-    abort(470) # Just as the error says...
+    abort(500) # Just as the error says...
 
 @app.route('/notes') # The same as earlier, but for notes
 def singlenotes():
@@ -114,7 +114,7 @@ def notes(id:int):
         db.session.commit() # Saves to the database
         return render_template('notes.html', user=user) # Returns the notes.html with the new user note
 
-    abort(470) # Just as the error says...
+    abort(500) # Just as the error says...
 
 ## On this line replace this with "@app.route('/your_url', methods=['GET', 'POST'])" or the function wont work
 def addPc():
@@ -155,10 +155,6 @@ def cerrcodes():
 @app.errorhandler(404) # Handles all ERR_NOT_FOUND errors
 def page_not_found(e):
     return render_template('error.html', case='Page not found', type='normal'), 404 # Returns my error.html with 404 error
-
-@app.errorhandler(470) # Handles all ERR_NOT_FOUND errors
-def cerr(e):
-    return render_template('error.html', case='How tf you got here', type='db'), 470 # Returns my error.html with 404 error
 
 @app.errorhandler(DatabaseError) # If it somehow fails to connect to database
 def special_exception_handler(e):
