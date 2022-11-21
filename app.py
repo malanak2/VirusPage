@@ -93,6 +93,7 @@ def notes(id:int):
 
     return render_template('error.html', case='NOTES UNKNOWN ERROR')
 
+## On this line replace this with "@app.route('/your_url', methods=['GET', 'POST'])" or the function wont work
 def addPc():
     if request.method != 'POST':
         abort(404)
