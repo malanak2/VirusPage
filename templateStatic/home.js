@@ -78,9 +78,9 @@ function newId(og, curId) {
 }*/
 
 function bringUp(id) {
-    window.location.href = page + "person?id=" + id;
+    window.location.href = page + "person/" + id;
 }
 
 function bringNotes(id) {
-  window.location.href = page + "notes?id=" + id;
+  window.location.href = page + "notes/" + id;
 }

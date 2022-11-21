@@ -1,2 +1,3 @@
 venv/
-icomputers.db
+icomputers.sqlite3
+.env
