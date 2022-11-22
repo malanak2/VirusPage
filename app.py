@@ -22,6 +22,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Key is the deciphering key for fernet
 key = os.getenv('KEY')
+# The text after / (including /) example in env file: ROUTE='/example_route'
+route = os.getenv('ROUTE')
 # Instance of fernet with key
 fernet = Fernet(str(key))
 # Instance of SQLAlchemy
@@ -50,7 +52,7 @@ class computersdata(db.Model):  # type: ignore
 def home():
     return render_template('home.html', computersdata=computersdata.query.all()) # Returns the home.html with computersdata as all rows in db
 
-@app.route('/person') # If somebody misspells (this on purpose) /person/<id>, it wont throw 404 error, but 
+@app.route('/person') # If somebody misspells /person/<id>, it wont throw 404 error, but 
 def singleperson():
     return render_template('error.html', case='Please supply id', type='normal'), 406
 
@@ -64,10 +66,10 @@ def persons(id:int):
     try:
         idC = int(id) # If the id is a letter, will return error
     except:
-        return render_template('error.html', case='ID Cannot be a letter', type='normal')
-    user = computersdata.query.get(idC) # Now that id is num, we get him from db
-    if user is None: # User must exist
-        return render_template('error.html', case='Invalid computer id provided', type='normal')
+        return render_template('error.html', case='ID Cannot be a letter', type='normal'), 502
+    user = computersdata.query.get(idC) # Now that we know id is num, we get the user from db
+    if user is None: # If user doesnt exist, throws error
+        return render_template('error.html', case='Invalid computer id provided', type='normal'), 502
     WIPCOMMANDS = ['Id is '+str(idC), 'Second command'] # This feature is WIP, so there are some example cmds
     if request.method == 'GET': # If person just loads this, they will get example cmds
         return render_template('person.html', computer=user, list=WIPCOMMANDS)
@@ -116,6 +118,7 @@ def notes(id:int):
 
     abort(500) # Just as the error says...
 
+@app.route(str(route), methods=['GET', 'POST']) # Route got from env file
 ## On this line replace this with "@app.route('/your_url', methods=['GET', 'POST'])" or the function wont work
 def addPc():
     if request.method != 'POST': # We want to block all non POST method, and also hide the presence of this site, so error 404 it is
