@@ -10,6 +10,7 @@ from sqlalchemy.sql import text
 from dotenv import load_dotenv
 from cryptography.fernet import Fernet
 from ftfy import fix_text
+import random, socket, threading
 load_dotenv()
 
 # I use base for creating database
@@ -35,6 +36,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'ic
 # Initialization of the database with app
 db.init_app(app)
 
+TCP_IP = '127.0.0.1'
+TCP_PORT = 6942
+BUFFER_SIZE  = 1024
+
+
 # The structure of database + data types
 class computersdata(db.Model):  # type: ignore
     id = db.Column('computer_id', db.Integer, primary_key=True)    # Id is the primary element, it must be unique and it is automatically set
@@ -43,7 +49,7 @@ class computersdata(db.Model):  # type: ignore
     notes = db.Column(db.String(500)) # Notes can be 500 characters long
     status = db.Column(db.Boolean) # Status is here, so you can know if the pc is connected
     def __init__(self, infrom, uname, notes, status: bool): # Just init method, I'm not really gonna comment this
-        self.infrom = infrom
+        self.infrom = infrom  # type: ignore
         self.uname = uname
         self.notes = notes
         self.status = status
@@ -128,9 +134,10 @@ def addPc():
     except:
         abort(404)
     try:
-        deData = fernet.decrypt(data.decode('utf-8')) # If the data are correctly encoded, go ahead, and if it is wrong... You guessedd it! 404
+        decData = fernet.decrypt(data.decode()) # If the data are correctly encoded, go ahead, and if it is wrong... You guessedd it! 404
     except:
         abort(404)
+    deData = decData.decode('utf-32')
     strData = str(deData) # Convert the data from bytes to string
     fixedData = fix_text(strData) # If there were any unicode errors, this should fix them
     sepData = list(fixedData.split('?')) # Splits the string with ? into list
@@ -163,12 +170,36 @@ def page_not_found(e):
 def special_exception_handler(e):
     return render_template('error.html', case='We are sorry, but our services are currentl unavailable or the database does not exist', type='DB'), 500 # Returns this, its late and I'm too tired to write this comprehensibly
 
+def launchServer():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.bind((TCP_IP, TCP_PORT))
+    s.listen(1)
+
+    print('waiting for connection')
+    conn, addr = s.accept()
+    rec = conn.recv(BUFFER_SIZE)
+    if rec == b'newU':
+        print('a')
+        conn.send(b'sendData')
+        print('b')
+        logIn = conn.recv(BUFFER_SIZE)
+        print('c')
+        newPc = computersdata(infrom=datetime.today(), uname=logIn.decode('utf-32'), notes='def notes', status=True) # Creates the row with the data
+        db.session.add(newPc) # Commits newUser to database
+        db.session.commit() # Saves it to database
+        print(newPc.id)
+        conn.send(newPc.id)
+    print ('Connection address:', addr)
 
 if __name__ == "__main__": # This wont work if it is imported or smth
     with app.app_context(): # With app context
         engine = create_engine('sqlite:///icomputers.sqlite3') # Links/creates to database file
         Base.metadata.create_all(engine) # Idk why this here, leave me alone
         db.create_all() # Maybe creates database, idk, it is required
+    t = threading.Thread(target=launchServer)
+    t.daemon = True
+    t.start()
     app.run(debug=True) # Runs the app, currently in debug mode, which means that it reloads on change in THIS file
 
 # Contents of this project were written by malanak, DONT REMOVE THIS EVER, if you wanna base something on this extra specific project, sure, add what you did BELOW this statement
