@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from cryptography.fernet import Fernet
 from ftfy import fix_text
 import random, socket, threading
+from sqlalchemy.orm import Session
 load_dotenv()
 
 # I use base for creating database
@@ -183,14 +184,24 @@ def launchServer():
         print('a')
         conn.send(b'sendData')
         print('b')
-        logIn = conn.recv(BUFFER_SIZE)
+        logIn = conn.recv(BUFFER_SIZE).decode('utf-32')
         print('c')
-        newPc = computersdata(infrom=datetime.today(), uname=logIn.decode('utf-32'), notes='def notes', status=True) # Creates the row with the data
-        db.session.add(newPc) # Commits newUser to database
-        db.session.commit() # Saves it to database
-        print(newPc.id)
-        conn.send(newPc.id)
-    print ('Connection address:', addr)
+        note = 'DEF NOTE'
+        isOn = True
+        todate = datetime.today()
+        newc = computersdata(infrom=todate, uname=logIn, notes=note, status=isOn) # Creates the row with the data
+        with Session(engine) as session:
+            try:
+                session.add(newc) # Commits newUser to database                
+            except:
+                session.rollback()
+            else:
+                session.commit() # Saves it to database
+        cid = session.query(computersdata).get(newc.id)
+        id = cid.id
+        conn.send(str(id))  # type: ignore
+    print ('Connection address:', str(addr))
+    conn.close()
 
 if __name__ == "__main__": # This wont work if it is imported or smth
     with app.app_context(): # With app context
