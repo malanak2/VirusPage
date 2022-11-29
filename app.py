@@ -11,7 +11,9 @@ from dotenv import load_dotenv
 from cryptography.fernet import Fernet
 from ftfy import fix_text
 import random, socket, threading
-from sqlalchemy.orm import Session
+from _thread import *
+from sqlalchemy.orm import sessionmaker
+import select
 load_dotenv()
 
 # I use base for creating database
@@ -36,10 +38,47 @@ app = Flask(__name__, static_folder='templateStatic')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'icomputers.sqlite3')
 # Initialization of the database with app
 db.init_app(app)
-
-TCP_IP = '127.0.0.1'
+TCP_IP = ''
 TCP_PORT = 6942
 BUFFER_SIZE  = 1024
+"""
+print_lock = threading.Lock()
+
+def server_Main():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((TCP_IP, TCP_PORT))
+    print("Socket succesfully binded to ", TCP_PORT)
+
+    while True:
+        c, addr = s.accept()
+
+        print_lock.acquire()
+        print("Connected to ", addr)
+        start_new_thread(handleHost, (c,))
+
+def handleHost(c):
+    while True:
+
+        # data received from client
+        data = c.recv(1024)
+        if not data:
+            print('Bye')
+
+            # lock released on exit
+            print_lock.release()
+            break
+
+        # reverse the given string from client
+        data = data[::-1]
+
+        # send back reversed string to client
+        c.send(data)
+
+    # connection closed
+    c.close()
+"""
+
+
 
 
 # The structure of database + data types
@@ -54,6 +93,61 @@ class computersdata(db.Model):  # type: ignore
         self.uname = uname
         self.notes = notes
         self.status = status
+
+def tcpSocket():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    #s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.bind((TCP_IP, TCP_PORT))
+    s.listen(5)
+
+    print('waiting for connection')
+    conn, addr = s.accept()
+    connPending = True
+    print ('Connection address:', str(addr))
+    print(connPending)
+    while connPending:
+        try:
+            ready_to_read, ready_to_write, in_error = \
+            select.select([conn,], [conn,], [], 5)
+        except select.error:
+            conn.close()
+        recieved = conn.recv(BUFFER_SIZE)
+        rec = recieved.decode('utf-32')
+        print(rec)
+        if rec is None:
+            continue
+        if rec == 'newU':
+            conn.send('sendData'.encode('utf-32'))
+            logIn = conn.recv(BUFFER_SIZE).decode('utf-32')
+            note = 'DEF NOTE'
+            isOn = True
+            todate = datetime.today()
+            newc = computersdata(infrom=todate, uname=logIn, notes=note, status=isOn) # Creates the row with the data
+            with app.app_context():
+                db.session.add(newc) # Commits newUser to database                
+                db.session.commit() # Saves it to database
+                cid = db.session.query(computersdata).get(newc.id)
+            id = cid.id
+            strid = str(id)
+            conn.send(strid.encode('utf-32'))  # type: ignore
+            continue
+        if rec == b'closeConn':
+            connPending = False
+            continue
+        try:
+             id = int(rec)
+        except:
+            continue
+        curUser = db.session.query(computersdata).get(id)
+        if curUser is None:
+            conn.send('Invalid id!'.encode('utf-32'))
+            connPending = False
+            continue
+        curUser.status = True
+        with app.app_context():
+            db.session.add(curUser)
+            db.session.commit()
+    conn.close()
 
 @app.get('/') # Homepage, supports only GET requests
 def home():
@@ -171,44 +265,17 @@ def page_not_found(e):
 def special_exception_handler(e):
     return render_template('error.html', case='We are sorry, but our services are currentl unavailable or the database does not exist', type='DB'), 500 # Returns this, its late and I'm too tired to write this comprehensibly
 
-def launchServer():
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    s.bind((TCP_IP, TCP_PORT))
-    s.listen(1)
+with app.app_context(): # With app context
+    engine = create_engine('sqlite:///icomputers.sqlite3') # Links/creates to database file
+Session = sessionmaker(engine)
 
-    print('waiting for connection')
-    conn, addr = s.accept()
-    rec = conn.recv(BUFFER_SIZE)
-    if rec == b'newU':
-        print('a')
-        conn.send(b'sendData')
-        print('b')
-        logIn = conn.recv(BUFFER_SIZE).decode('utf-32')
-        print('c')
-        note = 'DEF NOTE'
-        isOn = True
-        todate = datetime.today()
-        newc = computersdata(infrom=todate, uname=logIn, notes=note, status=isOn) # Creates the row with the data
-        with Session(engine) as session:
-            try:
-                session.add(newc) # Commits newUser to database                
-            except:
-                session.rollback()
-            else:
-                session.commit() # Saves it to database
-        cid = session.query(computersdata).get(newc.id)
-        id = cid.id
-        conn.send(str(id))  # type: ignore
-    print ('Connection address:', str(addr))
-    conn.close()
 
 if __name__ == "__main__": # This wont work if it is imported or smth
     with app.app_context(): # With app context
         engine = create_engine('sqlite:///icomputers.sqlite3') # Links/creates to database file
         Base.metadata.create_all(engine) # Idk why this here, leave me alone
         db.create_all() # Maybe creates database, idk, it is required
-    t = threading.Thread(target=launchServer)
+    t = threading.Thread(target=tcpSocket)
     t.daemon = True
     t.start()
     app.run(debug=True) # Runs the app, currently in debug mode, which means that it reloads on change in THIS file
